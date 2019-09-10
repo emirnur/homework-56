@@ -9,10 +9,6 @@
 {% block content %}
     <h1>Update Article</h1>
     <form method="POST" action="{% url 'article_update' article.pk %}">
-        {% csrf_token %}
-        <p><label>Title</label> <input type="text" name="title" value="{{ article.title }}"></p>
-        <p><label>Author</label> <input type="text" name="author" value="{{ article.author }}"></p>
-        <p><label>Text</label> <textarea name="text">{{ article.text }}</textarea></p>
-        <p><input type="submit" value="Update"></p>
+        {% include 'partial/article_form.html' with button_text="Update" %}
     </form>
 {% endblock %}
