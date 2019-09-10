@@ -55,3 +55,7 @@ h1 {
 .pre {
     white-space: pre-wrap;
 }
+
+.text-center {
+    text-align: center;
+}
