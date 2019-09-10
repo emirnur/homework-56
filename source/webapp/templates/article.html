@@ -2,6 +2,10 @@
 
 {% block title %}{{ article.title }}{% endblock %}
 
+{% block menu %}
+    <li><a href="{% url 'article_update' article.pk %}">Edit</a></li>
+{% endblock %}
+
 {% block content %}
     <h1>{{ article.title }}</h1>
     <p>Created by <b>{{ article.author }}</b> at <b>{{ article.created_at }}</b></p>

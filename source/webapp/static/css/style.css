@@ -51,3 +51,7 @@ h1 {
     color: #ffc122;
     text-decoration: underline;
 }
+
+.pre {
+    white-space: pre-wrap;
+}
