@@ -4,10 +4,11 @@
 
 {% block menu %}
     <li><a href="{% url 'article_update' article.pk %}">Edit</a></li>
+    <li><a href="{% url 'article_delete' article.pk %}">Delete</a></li>
 {% endblock %}
 
 {% block content %}
     <h1>{{ article.title }}</h1>
     <p>Created by <b>{{ article.author }}</b> at <b>{{ article.created_at }}</b></p>
-    <div>{{ article.text }}</div>
+    <div class="pre">{{ article.text }}</div>
 {% endblock %}
