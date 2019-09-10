@@ -23,6 +23,28 @@ def article_create_view(request, *args, **kwargs):
         title = request.POST.get('title')
         author = request.POST.get('author')
         text = request.POST.get('text')
+
+        errors = {}
+
+        if not title:
+            errors['title'] = 'Title should not be empty!'
+        elif len(title) > 200:
+            errors['title'] = 'Title should have length of 200 symbols or less!'
+
+        if not author:
+            errors['author'] = 'Author should not be empty!'
+        elif len(author) > 40:
+            errors['author'] = 'Author should have length of 40 symbols or less!'
+
+        if not text:
+            errors['text'] = 'Text should not be empty!'
+        elif len(text) > 3000:
+            errors['text'] = 'Text should have length of 3000 symbols or less!'
+
+        if len(errors) > 0:
+            article = Article(title=title, author=author, text=text)
+            return render(request, 'create.html', context={'errors': errors, 'article': article})
+
         article = Article.objects.create(title=title, author=author, text=text)
         return redirect('article_view', pk=article.pk)
 
@@ -35,6 +57,27 @@ def article_update_view(request, pk):
         article.title = request.POST.get('title')
         article.author = request.POST.get('author')
         article.text = request.POST.get('text')
+
+        errors = {}
+
+        if not article.title:
+            errors['title'] = 'Title should not be empty!'
+        elif len(article.title) > 200:
+            errors['title'] = 'Title should have length of 200 symbols or less!'
+
+        if not article.author:
+            errors['author'] = 'Author should not be empty!'
+        elif len(article.author) > 40:
+            errors['author'] = 'Author should have length of 40 symbols or less!'
+
+        if not article.text:
+            errors['text'] = 'Text should not be empty!'
+        elif len(article.text) > 3000:
+            errors['text'] = 'Text should have length of 3000 symbols or less!'
+
+        if len(errors) > 0:
+            return render(request, 'update.html', context={'errors': errors, 'article': article})
+
         article.save()
         return redirect('article_view', pk=article.pk)
 
