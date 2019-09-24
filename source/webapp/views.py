@@ -1,27 +1,32 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from webapp.forms import ArticleForm
 from webapp.models import Article
+from django.views import View
 
 
-def index_view(request, *args, **kwargs):
-    articles = Article.objects.all()
-    return render(request, 'index.html', context={
-        'articles': articles
-    })
+class IndexView(View):
+    def get(self, request, *args, **kwargs):
+        articles = Article.objects.all()
+        return render(request, 'index.html', context={
+            'articles': articles
+        })
 
 
-def article_view(request, pk):
-    article = get_object_or_404(Article, pk=pk)
-    return render(request, 'article.html', context={
-        'article': article
-    })
+class ArticleView(View):
+    def get(self, request, *args, **kwargs):
+        pk = kwargs.get('pk')
+        article = get_object_or_404(Article, pk=pk)
+        return render(request, 'article.html', context={
+            'article': article
+        })
 
 
-def article_create_view(request, *args, **kwargs):
-    if request.method == 'GET':
+class ArticleCreateView(View):
+    def get(self, request, *args, **kwargs):
         form = ArticleForm()
         return render(request, 'create.html', context={'form': form})
-    elif request.method == 'POST':
+
+    def post(self, request, *args, **kwargs):
         form = ArticleForm(data=request.POST)
         if form.is_valid():
             article = Article.objects.create(
