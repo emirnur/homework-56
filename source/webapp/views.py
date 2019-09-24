@@ -2,23 +2,26 @@ from django.shortcuts import render, get_object_or_404, redirect
 from webapp.forms import ArticleForm
 from webapp.models import Article
 from django.views import View
+from django.views.generic import TemplateView
 
 
-class IndexView(View):
-    def get(self, request, *args, **kwargs):
-        articles = Article.objects.all()
-        return render(request, 'index.html', context={
-            'articles': articles
-        })
+class IndexView(TemplateView):
+    template_name = 'index.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['articles'] = Article.objects.all()
+        return context
 
 
-class ArticleView(View):
-    def get(self, request, *args, **kwargs):
+class ArticleView(TemplateView):
+    template_name = 'article.html'
+
+    def get_context_data(self, **kwargs):
         pk = kwargs.get('pk')
-        article = get_object_or_404(Article, pk=pk)
-        return render(request, 'article.html', context={
-            'article': article
-        })
+        context = super().get_context_data(**kwargs)
+        context['article'] = get_object_or_404(Article, pk=pk)
+        return context
 
 
 class ArticleCreateView(View):
