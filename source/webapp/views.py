@@ -35,7 +35,8 @@ class ArticleCreateView(View):
             article = Article.objects.create(
                 title=form.cleaned_data['title'],
                 author=form.cleaned_data['author'],
-                text=form.cleaned_data['text']
+                text=form.cleaned_data['text'],
+                category=form.cleaned_data['category']
             )
             return redirect('article_view', pk=article.pk)
         else:
@@ -47,16 +48,18 @@ def article_update_view(request, pk):
     if request.method == 'GET':
         form = ArticleForm(data={
             'title': article.title,
+            'author': article.author,
             'text': article.text,
-            'author': article.author
+            'category': article.category_id
         })
         return render(request, 'update.html', context={'form': form, 'article': article})
     elif request.method == 'POST':
         form = ArticleForm(data=request.POST)
         if form.is_valid():
             article.title = form.cleaned_data['title']
-            article.text = form.cleaned_data['text']
             article.author = form.cleaned_data['author']
+            article.text = form.cleaned_data['text']
+            article.category = form.cleaned_data['category']
             article.save()
             return redirect('article_view', pk=article.pk)
         else:

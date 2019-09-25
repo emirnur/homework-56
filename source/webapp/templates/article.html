@@ -9,6 +9,7 @@
 
 {% block content %}
     <h1>{{ article.title }}</h1>
-    <p>Created by <b>{{ article.author }}</b> at <b>{{ article.created_at }}</b></p>
+    <p>Created by {{ article.author }} ({{ article.category|default_if_none:'Без категории' }})
+            at {{ article.created_at|date:'d.m.Y H:i:s' }}</p>
     <div class="pre">{{ article.text }}</div>
 {% endblock %}
