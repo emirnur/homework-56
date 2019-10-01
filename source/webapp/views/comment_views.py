@@ -3,6 +3,13 @@ from webapp.forms import CommentForm
 from webapp.models import Comment
 from django.views import View
 from django.views.generic import TemplateView
+from .base_views import ListView
+
+
+class CommentListView(ListView):
+    template_name = 'comment/list.html'
+    model = Comment
+    context_key = 'comments'
 
 
 class CommentCreateView(View):

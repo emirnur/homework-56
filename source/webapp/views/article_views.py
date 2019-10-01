@@ -3,15 +3,16 @@ from webapp.forms import ArticleForm
 from webapp.models import Article
 from django.views import View
 from django.views.generic import TemplateView
+from .base_views import ListView
 
 
-class IndexView(TemplateView):
+class IndexView(ListView):
     template_name = 'article/index.html'
+    model = Article
+    context_key = 'articles'
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['articles'] = Article.objects.all()
-        return context
+    def get_objects(self):
+        return super().get_objects().order_by('-created_at')
 
 
 class ArticleView(TemplateView):
