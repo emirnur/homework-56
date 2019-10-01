@@ -70,3 +70,30 @@ h1 {
     border: solid 1px red;
     box-shadow: red 0 0 3px;
 }
+
+.pagination {
+    text-align: center;
+}
+
+.pagination a, .pagination .page-disabled {
+    display: inline-block;
+    border: solid 1px #6a7ddd;
+    border-radius: 3px;
+    padding: 5px;
+    margin: 3px;
+}
+
+.pagination a {
+    background: #6a7ddd;
+    color: white;
+}
+
+.pagination a:hover {
+    background: #6a7dff;
+    text-decoration: underline;
+}
+
+.pagination .page-disabled {
+    background: #6a7dcc;
+    color: #dddddd
+}
