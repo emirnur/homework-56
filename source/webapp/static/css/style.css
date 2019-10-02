@@ -75,7 +75,7 @@ h1 {
     text-align: center;
 }
 
-.pagination a, .pagination .page-disabled {
+.pagination a, .page-disabled, .page-active {
     display: inline-block;
     border: solid 1px #6a7ddd;
     border-radius: 3px;
@@ -93,7 +93,7 @@ h1 {
     text-decoration: underline;
 }
 
-.pagination .page-disabled {
+.page-disabled {
     background: #6a7dcc;
     color: #dddddd
 }
@@ -102,4 +102,8 @@ h1 {
     font-size: 16px;
     width: 50px;
     text-align: center;
+}
+
+.page-active {
+    background: #ffc122;
 }

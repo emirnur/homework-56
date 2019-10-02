@@ -9,7 +9,7 @@
         {% endif %}
 
         <span>
-            Страница <input class="page-input" type="text" name="page" value="{{ page_obj.number }}" maxlength="5"> из {{ page_obj.paginator.num_pages }}.
+            Страница <input class="page-input" type="text" name="page" value="{{ page_obj.number }}" maxlength="5"> из {{ paginator.num_pages }}.
         </span>
 
         {% if page_obj.has_next %}
@@ -17,6 +17,16 @@
         {% else %}
             <span class="page-disabled">Далее</span>
         {% endif %}
-        <a href="?page={{ page_obj.paginator.num_pages }}">В конец &raquo;</a>
+
+        <a href="?page={{ paginator.num_pages }}">В конец &raquo;</a>
     </form>
+    <div>
+        {% for page in paginator.page_range %}
+            {% if page_obj.number == page %}
+                <span class="page-active">{{ page }}</span>
+            {% else %}
+                <a href="?page={{ page }}">{{ page }}</a>
+            {% endif %}
+        {% endfor %}
+    </div>
 </div>
