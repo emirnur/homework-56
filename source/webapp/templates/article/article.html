@@ -11,25 +11,27 @@
 {% block content %}
     <h1>{{ article.title }}</h1>
     <p>Created by {{ article.author }} ({{ article.category|default_if_none:'Без категории' }})
-            at {{ article.created_at|date:'d.m.Y H:i:s' }}</p>
+        at {{ article.created_at|date:'d.m.Y H:i:s' }}</p>
     <div class="pre">{{ article.text }}</div>
     <hr/>
     <h3>Comments:</h3>
     {% if is_paginated %}
         {% include 'partial/pagination.html' %}
     {% endif %}
-    {% for comment in comments %}
-        <div class="comment">
-            <p>{{ comment.author }} commented at {{ comment.created_at|date:'d.m.Y H:i:s' }}</p>
-            <div class="pre">{{ comment.text }}</div>
-        </div>
-    {% empty %}
-        <p>No comments yet.</p>
-    {% endfor %}
+    <div class="comment-list">
+        {% for comment in comments %}
+            <div class="comment">
+                <p>{{ comment.author }} commented at {{ comment.created_at|date:'d.m.Y H:i:s' }}</p>
+                <div class="pre">{{ comment.text }}</div>
+            </div>
+        {% empty %}
+            <p>No comments yet.</p>
+        {% endfor %}
+    </div>
     {% if is_paginated %}
         {% include 'partial/pagination.html' %}
     {% endif %}
-    <form action="{% url 'article_comment_create' article.pk%}" method="POST" id="add_comment">
+    <form action="{% url 'article_comment_create' article.pk %}" method="POST" id="add_comment">
         {% include 'partial/form.html' with button_text='Add' %}
     </form>
 {% endblock %}

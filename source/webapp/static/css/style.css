@@ -86,6 +86,7 @@ h1 {
 .pagination a {
     background: #6a7ddd;
     color: white;
+    text-decoration: none;
 }
 
 .pagination a:hover {
@@ -108,12 +109,17 @@ h1 {
     background: #ffc122;
 }
 
+.comment-list {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: 10px;
+}
+
 .comment {
     border: solid 1px #cccccc;
     border-radius: 5px;
     padding: 10px;
     margin-top: 10px;
-    margin-left: 10px;
 }
 
 .comment p {
