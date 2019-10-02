@@ -4,7 +4,7 @@
 
 {% block content %}
     <h1>Create Comment</h1>
-    <form method="POST" action="{% url 'comment_add' %}">
+    <form method="POST" action="">
         {% include 'partial/form.html' with button_text="Create" %}
     </form>
 {% endblock %}

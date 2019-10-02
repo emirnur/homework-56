@@ -14,6 +14,7 @@
     <div class="pre">{{ article.text }}</div>
     <hr/>
     <h3>Comments:</h3>
+    <p><a href="{% url 'article_comment_create' article.pk %}">Добавить комментарий</a></p>
     {% for comment in article.comments.all %}
         <div class="comment">
             <p>{{ comment.author }} commented at {{ comment.created_at|date:'d.m.Y H:i:s' }}</p>

@@ -19,3 +19,9 @@ class CommentForm(forms.Form):
     author = forms.CharField(max_length=40, required=False, label='Author', initial='Аноним')
     text = forms.CharField(max_length=400, required=True, label='Text',
                            widget=widgets.Textarea)
+
+
+class ArticleCommentForm(forms.Form):
+    author = forms.CharField(max_length=40, required=False, label='Author', initial='Аноним')
+    text = forms.CharField(max_length=400, required=True, label='Text',
+                           widget=widgets.Textarea)
