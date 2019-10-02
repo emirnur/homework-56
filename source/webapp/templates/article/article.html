@@ -5,6 +5,7 @@
 {% block menu %}
     <li><a href="{% url 'article_update' article.pk %}">Edit</a></li>
     <li><a href="{% url 'article_delete' article.pk %}">Delete</a></li>
+    <li><a href="#add_comment">Add Comment</a></li>
 {% endblock %}
 
 {% block content %}
@@ -14,7 +15,6 @@
     <div class="pre">{{ article.text }}</div>
     <hr/>
     <h3>Comments:</h3>
-    <p><a href="{% url 'article_comment_create' article.pk %}">Добавить комментарий</a></p>
     {% for comment in article.comments.all %}
         <div class="comment">
             <p>{{ comment.author }} commented at {{ comment.created_at|date:'d.m.Y H:i:s' }}</p>
@@ -23,4 +23,7 @@
     {% empty %}
         <p>No comments yet.</p>
     {% endfor %}
+    <form action="{% url 'article_comment_create' article.pk%}" method="POST" id="add_comment">
+        {% include 'partial/form.html' with button_text='Add' %}
+    </form>
 {% endblock %}
