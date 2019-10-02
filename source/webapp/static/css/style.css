@@ -97,3 +97,9 @@ h1 {
     background: #6a7dcc;
     color: #dddddd
 }
+
+.page-input {
+    font-size: 16px;
+    width: 50px;
+    text-align: center;
+}

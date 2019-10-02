@@ -1,5 +1,5 @@
 <div class="pagination">
-    <span class="step-links">
+    <form action="" method="GET">
         <a href="?page=1">&laquo; В начало</a>
 
         {% if page_obj.has_previous %}
@@ -8,8 +8,8 @@
             <span class="page-disabled">Назад</span>
         {% endif %}
 
-        <span class="current">
-            Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}.
+        <span>
+            Страница <input class="page-input" type="text" name="page" value="{{ page_obj.number }}" maxlength="5"> из {{ page_obj.paginator.num_pages }}.
         </span>
 
         {% if page_obj.has_next %}
@@ -18,5 +18,5 @@
             <span class="page-disabled">Далее</span>
         {% endif %}
         <a href="?page={{ page_obj.paginator.num_pages }}">В конец &raquo;</a>
-    </span>
+    </form>
 </div>
