@@ -19,10 +19,12 @@ class ArticleView(TemplateView):
     template_name = 'article/article.html'
 
     def get_context_data(self, **kwargs):
-        pk = kwargs.get('pk')
         context = super().get_context_data(**kwargs)
-        context['article'] = get_object_or_404(Article, pk=pk)
+        pk = kwargs.get('pk')
+        article = get_object_or_404(Article, pk=pk)
+        context['article'] = article
         context['form'] = ArticleCommentForm()
+        context['comments'] = article.comments.order_by('-created_at')
         return context
 
 
