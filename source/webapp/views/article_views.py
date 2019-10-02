@@ -4,6 +4,7 @@ from django.views.generic import TemplateView, ListView
 
 from webapp.forms import ArticleForm, ArticleCommentForm
 from webapp.models import Article
+from django.core.paginator import Paginator
 
 
 class IndexView(ListView):
@@ -24,7 +25,14 @@ class ArticleView(TemplateView):
         article = get_object_or_404(Article, pk=pk)
         context['article'] = article
         context['form'] = ArticleCommentForm()
-        context['comments'] = article.comments.order_by('-created_at')
+        comments = article.comments.order_by('-created_at')
+        paginator = Paginator(comments, 3, 0)
+        page_number = self.request.GET.get('page', 1)
+        page = paginator.get_page(page_number)
+        context['paginator'] = paginator
+        context['page_obj'] = page
+        context['comments'] = page.object_list
+        context['is_paginated'] = page.has_other_pages()
         return context
 
 

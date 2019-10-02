@@ -15,6 +15,9 @@
     <div class="pre">{{ article.text }}</div>
     <hr/>
     <h3>Comments:</h3>
+    {% if is_paginated %}
+        {% include 'partial/pagination.html' %}
+    {% endif %}
     {% for comment in comments %}
         <div class="comment">
             <p>{{ comment.author }} commented at {{ comment.created_at|date:'d.m.Y H:i:s' }}</p>
@@ -23,6 +26,9 @@
     {% empty %}
         <p>No comments yet.</p>
     {% endfor %}
+    {% if is_paginated %}
+        {% include 'partial/pagination.html' %}
+    {% endif %}
     <form action="{% url 'article_comment_create' article.pk%}" method="POST" id="add_comment">
         {% include 'partial/form.html' with button_text='Add' %}
     </form>
