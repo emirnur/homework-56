@@ -12,4 +12,14 @@
     <p>Created by {{ article.author }} ({{ article.category|default_if_none:'Без категории' }})
             at {{ article.created_at|date:'d.m.Y H:i:s' }}</p>
     <div class="pre">{{ article.text }}</div>
+    <hr/>
+    <h3>Comments:</h3>
+    {% for comment in article.comments.all %}
+        <div class="comment">
+            <p>{{ comment.author }} commented at {{ comment.created_at|date:'d.m.Y H:i:s' }}</p>
+            <div class="pre">{{ comment.text }}</div>
+        </div>
+    {% empty %}
+        <p>No comments yet.</p>
+    {% endfor %}
 {% endblock %}
