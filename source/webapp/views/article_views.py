@@ -1,10 +1,12 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views import View
-from django.views.generic import TemplateView, ListView
+from django.views.generic import ListView
 
 from webapp.forms import ArticleForm, ArticleCommentForm
 from webapp.models import Article
 from django.core.paginator import Paginator
+
+from webapp.views.base_views import DetailView
 
 
 class IndexView(ListView):
@@ -16,8 +18,10 @@ class IndexView(ListView):
     paginate_orphans = 1
 
 
-class ArticleView(TemplateView):
+class ArticleView(DetailView):
     template_name = 'article/article.html'
+    model = Article
+    context_key = 'article'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -26,6 +30,10 @@ class ArticleView(TemplateView):
         context['article'] = article
         context['form'] = ArticleCommentForm()
         comments = article.comments.order_by('-created_at')
+        self.paginate_comments_to_context(comments, context)
+        return context
+
+    def paginate_comments_to_context(self, comments, context):
         paginator = Paginator(comments, 3, 0)
         page_number = self.request.GET.get('page', 1)
         page = paginator.get_page(page_number)
@@ -33,7 +41,6 @@ class ArticleView(TemplateView):
         context['page_obj'] = page
         context['comments'] = page.object_list
         context['is_paginated'] = page.has_other_pages()
-        return context
 
 
 class ArticleCreateView(View):
