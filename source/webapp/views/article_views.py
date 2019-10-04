@@ -40,7 +40,7 @@ class ArticleView(DetailView):
 
 
 class ArticleCreateView(CreateView):
-    fields = ['title', 'author', 'text', 'category']
+    form_class = ArticleForm
     model = Article
     template_name = 'article/create.html'
 
