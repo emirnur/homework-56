@@ -14,20 +14,15 @@ class CommentListView(ListView):
     context_key = 'comments'
 
 
-class CommentForArticleCreateView(View):
-    def post(self, request, *args, **kwargs):
-        form = ArticleCommentForm(data=request.POST)
-        article_pk = kwargs.get('pk')
-        article = get_object_or_404(Article, pk=article_pk)
-        if form.is_valid():
-            comment = Comment.objects.create(
-                author=form.cleaned_data['author'],
-                text=form.cleaned_data['text'],
-                article=article
-            )
-            return redirect('article_view', pk=article_pk)
-        else:
-            return render(request, 'article/article.html', context={'form': form, 'article': article})
+class CommentForArticleCreateView(CreateView):
+    model = Comment
+    template_name = 'comment/create.html'
+    form_class = ArticleCommentForm
+
+    def form_valid(self, form):
+        article = get_object_or_404(Article, pk=self.kwargs.get('pk'))
+        comment = article.comments.create(**form.cleaned_data)
+        return redirect('article_view', pk=comment.article.pk)
 
 
 class CommentCreateView(CreateView):

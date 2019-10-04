@@ -44,10 +44,16 @@ class CreateView(View):
     def post(self, request, *args, **kwargs):
         form = self.form_class(data=request.POST)
         if form.is_valid():
-            self.object = self.model.objects.create(**form.cleaned_data)
-            return redirect(self.get_redirect_url())
+            return self.form_valid(form)
         else:
-            return render(request, self.template_name, context={'form': form})
+            return self.form_invalid(form)
 
     def get_redirect_url(self):
         return self.redirect_url
+
+    def form_valid(self, form):
+        self.object = self.model.objects.create(**form.cleaned_data)
+        return redirect(self.get_redirect_url())
+
+    def form_invalid(self, form):
+        return render(self.request, self.template_name, context={'form': form})
