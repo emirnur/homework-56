@@ -1,16 +1,18 @@
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse
-from django.views.generic import CreateView
+from django.views.generic import CreateView, ListView
 
 from webapp.forms import CommentForm, ArticleCommentForm
 from webapp.models import Comment, Article
-from .base_views import ListView
 
 
 class CommentListView(ListView):
     template_name = 'comment/list.html'
     model = Comment
-    context_key = 'comments'
+    context_object_name = 'comments'
+    ordering = ['-created_at']
+    paginate_by = 10
+    paginate_orphans = 3
 
 
 class CommentForArticleCreateView(CreateView):

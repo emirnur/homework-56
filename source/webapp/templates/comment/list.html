@@ -11,7 +11,7 @@
     {% endif %}
     {% for comment in comments %}
         <div class="comment">
-            <p>To article: {{ comment.article }}</p>
+            <p>To article: <a href="{% url 'article_view' comment.article.pk %}">{{ comment.article.title }}</a></p>
             <p>{{ comment.author }} commented at {{ comment.created_at|date:'d.m.Y H:i:s' }}</p>
             <div class="pre">{{ comment.text }}</div>
         </div>
