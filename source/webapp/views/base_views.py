@@ -1,4 +1,5 @@
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, render, redirect
+from django.views import View
 from django.views.generic import TemplateView
 
 
@@ -28,3 +29,25 @@ class DetailView(TemplateView):
     def get_object(self):
         pk = self.kwargs.get(self.key_kwarg)
         return get_object_or_404(self.model, pk=pk)
+
+
+class CreateView(View):
+    form_class = None
+    template_name = None
+    model = None
+    redirect_url = None
+
+    def get(self, request, *args, **kwargs):
+        form = self.form_class()
+        return render(request, self.template_name, context={'form': form})
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(data=request.POST)
+        if form.is_valid():
+            self.object = self.model.objects.create(**form.cleaned_data)
+            return redirect(self.get_redirect_url())
+        else:
+            return render(request, self.template_name, context={'form': form})
+
+    def get_redirect_url(self):
+        return self.redirect_url
