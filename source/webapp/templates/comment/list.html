@@ -14,6 +14,10 @@
             <p>To article: <a href="{% url 'article_view' comment.article.pk %}">{{ comment.article.title }}</a></p>
             <p>{{ comment.author }} commented at {{ comment.created_at|date:'d.m.Y H:i:s' }}</p>
             <div class="pre">{{ comment.text }}</div>
+            <p class="comment-links">
+                <a href="{% url 'comment_update' comment.pk %}">Edit</a>
+                <a href="{% url 'comment_delete' comment.pk %}">Delete</a>
+            </p>
         </div>
     {% empty %}
         <p>No comments yet.</p>
