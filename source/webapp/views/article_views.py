@@ -1,14 +1,10 @@
-from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse, reverse_lazy
-from django.views import View
 from django.views.generic import ListView, DetailView, CreateView,\
-    UpdateView
+    UpdateView, DeleteView
 
 from webapp.forms import ArticleForm, ArticleCommentForm
 from webapp.models import Article
 from django.core.paginator import Paginator
-
-from webapp.views.base_views import DeleteView
 
 
 class IndexView(ListView):
@@ -64,5 +60,5 @@ class ArticleUpdateView(UpdateView):
 class ArticleDeleteView(DeleteView):
     model = Article
     template_name = 'article/delete.html'
-    context_key = 'article'
-    redirect_url = reverse_lazy('index')
+    context_object_name = 'article'
+    success_url = reverse_lazy('index')
