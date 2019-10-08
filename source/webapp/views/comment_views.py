@@ -4,6 +4,7 @@ from django.views.generic import CreateView, ListView, UpdateView
 
 from webapp.forms import CommentForm, ArticleCommentForm
 from webapp.models import Comment, Article
+from webapp.views.base_views import DeleteView
 
 
 class CommentListView(ListView):
@@ -42,4 +43,12 @@ class CommentUpdateView(UpdateView):
     context_object_name = 'comment'
 
     def get_success_url(self):
+        return reverse('article_view', kwargs={'pk': self.object.article.pk})
+
+
+class CommentDeleteView(DeleteView):
+    model = Comment
+    confirm_deletion = False
+
+    def get_redirect_url(self):
         return reverse('article_view', kwargs={'pk': self.object.article.pk})

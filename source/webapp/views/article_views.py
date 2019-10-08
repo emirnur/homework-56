@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.views import View
 from django.views.generic import ListView, DetailView, CreateView,\
     UpdateView
@@ -7,6 +7,8 @@ from django.views.generic import ListView, DetailView, CreateView,\
 from webapp.forms import ArticleForm, ArticleCommentForm
 from webapp.models import Article
 from django.core.paginator import Paginator
+
+from webapp.views.base_views import DeleteView
 
 
 class IndexView(ListView):
@@ -59,12 +61,8 @@ class ArticleUpdateView(UpdateView):
         return reverse('article_view', kwargs={'pk': self.object.pk})
 
 
-class ArticleDeleteView(View):
-    def get(self, request, *args, **kwargs):
-        article = get_object_or_404(Article, pk=kwargs.get('pk'))
-        return render(request, 'article/delete.html', context={'article': article})
-
-    def post(self, request, *args, **kwargs):
-        article = get_object_or_404(Article, pk=kwargs.get('pk'))
-        article.delete()
-        return redirect('index')
+class ArticleDeleteView(DeleteView):
+    model = Article
+    template_name = 'article/delete.html'
+    context_key = 'article'
+    redirect_url = reverse_lazy('index')
