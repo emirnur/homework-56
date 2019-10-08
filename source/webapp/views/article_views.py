@@ -7,6 +7,8 @@ from webapp.forms import ArticleForm, ArticleCommentForm
 from webapp.models import Article
 from django.core.paginator import Paginator
 
+from webapp.views.base_views import UpdateView
+
 
 class IndexView(ListView):
     template_name = 'article/index.html'
@@ -48,29 +50,14 @@ class ArticleCreateView(CreateView):
         return reverse('article_view', kwargs={'pk': self.object.pk})
 
 
-class ArticleUpdateView(View):
-    def get(self, request, *args, **kwargs):
-        article = get_object_or_404(Article, pk=kwargs.get('pk'))
-        form = ArticleForm(data={
-            'title': article.title,
-            'author': article.author,
-            'text': article.text,
-            'category': article.category_id
-        })
-        return render(request, 'article/update.html', context={'form': form, 'article': article})
+class ArticleUpdateView(UpdateView):
+    model = Article
+    template_name = 'article/update.html'
+    form_class = ArticleForm
+    context_key = 'article'
 
-    def post(self, request, *args, **kwargs):
-        article = get_object_or_404(Article, pk=kwargs.get('pk'))
-        form = ArticleForm(data=request.POST)
-        if form.is_valid():
-            article.title = form.cleaned_data['title']
-            article.author = form.cleaned_data['author']
-            article.text = form.cleaned_data['text']
-            article.category = form.cleaned_data['category']
-            article.save()
-            return redirect('article_view', pk=article.pk)
-        else:
-            return render(request, 'article/update.html', context={'form': form, 'article': article})
+    def get_redirect_url(self):
+        return reverse('article_view', kwargs={'pk': self.object.pk})
 
 
 class ArticleDeleteView(View):
