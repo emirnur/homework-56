@@ -1,5 +1,5 @@
 from django.contrib import admin
-from webapp.models import Article, Comment, Category
+from webapp.models import Article, Comment, Category, Tag
 
 
 class CommentAdmin(admin.TabularInline):
@@ -14,6 +14,7 @@ class ArticleAdmin(admin.ModelAdmin):
     list_display_links = ['pk', 'title']
     search_fields = ['title', 'text']
     exclude = []
+    filter_horizontal = ['tags']
     readonly_fields = ['created_at', 'updated_at']
     inlines = [CommentAdmin]
 
@@ -21,3 +22,4 @@ class ArticleAdmin(admin.ModelAdmin):
 admin.site.register(Article, ArticleAdmin)
 admin.site.register(Comment)
 admin.site.register(Category)
+admin.site.register(Tag)
