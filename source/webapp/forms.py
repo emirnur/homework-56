@@ -1,6 +1,5 @@
 from django import forms
-
-from webapp.models import Article, Comment
+from webapp.models import Article, Comment, STATUS_ACTIVE
 
 
 class ArticleForm(forms.ModelForm):
@@ -10,6 +9,12 @@ class ArticleForm(forms.ModelForm):
 
 
 class CommentForm(forms.ModelForm):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.fields['article'].queryset = Article.objects.filter(status=STATUS_ACTIVE)
+
+    # article = forms.ModelChoiceField(queryset=Article.objects.filter(status=STATUS_ACTIVE), label='Статья')
+
     class Meta:
         model = Comment
         exclude = ['created_at', 'updated_at']

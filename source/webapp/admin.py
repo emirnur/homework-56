@@ -10,7 +10,7 @@ class CommentAdmin(admin.TabularInline):
 
 class ArticleAdmin(admin.ModelAdmin):
     list_display = ['pk', 'title', 'author', 'created_at']
-    list_filter = ['author', 'category']
+    list_filter = ['author', 'category', 'status']
     list_display_links = ['pk', 'title']
     search_fields = ['title', 'text']
     exclude = []
