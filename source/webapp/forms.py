@@ -1,11 +1,32 @@
 from django import forms
+from django.core.exceptions import ValidationError
+
 from webapp.models import Article, Comment, STATUS_ACTIVE
 
 
 class ArticleForm(forms.ModelForm):
     class Meta:
         model = Article
-        exclude = ['created_at', 'updated_at']
+        exclude = ['created_at', 'updated_at', 'status']
+
+    def clean_title(self):
+        title = self.cleaned_data['title']
+        min_length = 10
+        if len(title) < min_length:
+            raise ValidationError(
+                'Title should be at least %(length)s symbols long.',
+                code='title_too_short',
+                params={'length': min_length}
+            )
+        return title.capitalize()
+
+    def clean(self):
+        super().clean()
+        title = self.cleaned_data.get('title', '')
+        text = self.cleaned_data.get('text', '')
+        if title.lower() == text.lower():
+            raise ValidationError('Text should not duplicate title')
+        return self.cleaned_data
 
 
 class CommentForm(forms.ModelForm):
