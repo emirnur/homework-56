@@ -63,8 +63,19 @@ class FullSearchForm(forms.Form):
     in_comments = forms.BooleanField(initial=False, required=False, label='Комментариев')
 
     def clean(self):
-        super().clean()
         text = self.cleaned_data.get('text')
+        author = self.cleaned_data.get('author')
+        if len(text) == 0 and len(author) == 0:
+            raise ValidationError(
+                'The text and the author should be fill in!',
+                code='no_fields_search_destination'
+            )
+        else:
+            self.text_valid(text)
+            self.author_valid(author)
+
+    def text_valid(self, text):
+        super().clean()
         in_title = self.cleaned_data.get('in_title')
         in_text = self.cleaned_data.get('in_text')
         in_tags = self.cleaned_data.get('in_tags')
@@ -76,3 +87,17 @@ class FullSearchForm(forms.Form):
                     code='no_text_search_destination'
                 )
         return self.cleaned_data
+
+    def author_valid(self, author):
+        super().clean()
+        in_articles = self.cleaned_data.get('in_articles')
+        in_comments = self.cleaned_data.get('in_comments')
+        if author:
+            if not (in_articles or in_comments):
+                raise ValidationError(
+                    'One of the checkboxes: In Articles, In Comments for author should be checked.',
+                    code='no_author_search_destination'
+                )
+        return self.cleaned_data
+
+
